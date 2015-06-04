@@ -14,6 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+require_once($CFG->dirroot.'/blocks/course_publish/facebook-php-sdk-v4-4.0-dev/autoload.php');
+use Facebook\FacebookSession;
+use Facebook\FacebookRedirectLoginHelper;
 /**
  * Course_publish block caps.
  *
@@ -22,16 +26,17 @@
  * @copyright 2015 DUALCUBE {@link http://dualcube.com/}
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot.'/blocks/course_publish/facebook-php-sdk-v4-4.0-dev/autoload.php');
-use Facebook\FacebookSession;
-use Facebook\FacebookRedirectLoginHelper;
-
 class block_course_publish extends block_base {
 
+    /** 
+     * This is essential for all blocks, and its purpose is to give values to any class member variables that need instantiating.
+     */
     public function init() {
         $this->title = get_string('pluginname', 'block_course_publish');
     }
+    /** 
+     * Get block to actually display something on screen, we need to add this method to our class
+     */
     public function get_content() {
         global $CFG, $OUTPUT, $COURSE, $DB;
         $ischeck = "";
@@ -91,11 +96,8 @@ class block_course_publish extends block_base {
             if (empty($ischeck)) {
                 $lastinsertid = $DB->insert_record('block_course_publish', $record, false);
             } else {
-                $sql = 'update {block_course_publish} set appid = ?, secretkey = ?, callbackurl = ?, picture = ?, link = ?,
-                message = ?, caption = ?, pageaccesstoken = ?, pageid = ? where courseid = ?';
-                $DB->execute($sql, array($this->config->appid, $this->config->secretkey, $record->callbackurl,
-                    $this->config->picture, $record->link, $this->config->message, $this->config->caption,
-                    $this->config->pageaccesstoken, $this->config->pageid, $COURSE->id));
+                $record->id = $ischeck->id;
+                $DB->update_record('block_course_publish', $record, $bulk = false);
             }
         }
         $ischeck = $DB->get_record('block_course_publish', array('courseid' => $COURSE->id));
@@ -107,18 +109,10 @@ class block_course_publish extends block_base {
         }
         return $this->content;
     }
+    /** 
+     * Some blocks are useful in some circumstances, but not in others.
+     */
     public function applicable_formats() {
-        return array('all' => false, 'site' => true, 'site-index' => true, 'course-view' => true,
-        'course-view-social' => false, 'mod' => true, 'mod-quiz' => false);
-    }
-    public function instance_allow_multiple() {
-        return true;
-    }
-    public function has_config() {
-        return true;
-    }
-    public function cron() {
-        mtrace( "Hey, my cron script is running" );
-        return true;
+        return array('all' => false, 'site' => true, 'site-index' => true, 'course-view' => true);
     }
 }

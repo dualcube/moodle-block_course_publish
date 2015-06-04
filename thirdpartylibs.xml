@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<libraries>
+    <library>
+        <location>facebook-php-sdk-v4-4.0-dev/</location>
+        <name>Facebook SDK for PHP</name>
+        <version>v4.0.0</version>
+        <license>Apache</license>
+        <licenseversion>2.0</licenseversion>
+    </library>
+</libraries>

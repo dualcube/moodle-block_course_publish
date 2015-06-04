@@ -13,17 +13,16 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
- * Feedback block installation.
- * Course_publish block caps.
- *
+ * Feedback block installation Course_publish block caps.
  * @package block_course_publish
  * @author Sandipa Mukherjee <sandipa@dualcube.com>
  * @copyright DUALCUBE {@link http://dualcube.com/}
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+/** 
+ * return the form
+ */
 function xmldb_block_course_publish_install() {
     global $DB, $CFG;
 }

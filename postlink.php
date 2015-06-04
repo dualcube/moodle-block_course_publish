@@ -24,6 +24,7 @@
  */
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
+require_login();
 require_once($CFG->dirroot.'/blocks/course_publish/facebook-php-sdk-v4-4.0-dev/autoload.php');
 use Facebook\FacebookSession;
 use Facebook\FacebookRequest;
@@ -33,32 +34,34 @@ use Facebook\FacebookRedirectLoginHelper;
 GLOBAL $DB;
 $plugin = 'block_course_publish';
 $courseid = optional_param('courseid', 0, PARAM_INT);
-$coursepublish = $DB->get_record('block_course_publish', array('courseid' => $courseid));
-FacebookSession::setDefaultApplication($coursepublish->appid, $coursepublish->secretkey);
-// If you already have a valid access token.
-$session = new FacebookSession($coursepublish->pageaccesstoken);
-// Get page access token.
-$accesstoken = (new FacebookRequest( $session, 'GET', '/' . $coursepublish->pageid,
-array( 'fields' => 'access_token' ) ))->execute()->getGraphObject()->asArray();
-// Save access token in variable for later use.
-$accesstoken = $accesstoken['access_token'];
-// To validate the session.
-if ($session) {
-    try {
-        $response = (new FacebookRequest(
-        $session, 'POST', '/'.$coursepublish->pageid.'/feed', array(
-        'access_token' => $accesstoken,
-        'link' => $coursepublish->link,
-        'message' => $coursepublish->message,
-        'picture' => $coursepublish->picture,
-        'caption' => $coursepublish->caption
-        )))->execute()->getGraphObject();
-        echo 'I am from try block ';
-        echo "Posted with id: " . $response->getProperty('id');
-    } catch (FacebookRequestException $e) {
-        echo "Exception occured, code: " . $e->getCode();
-        echo " with message: " . $e->getMessage();
+if ($courseid != 0) {
+    $coursepublish = $DB->get_record('block_course_publish', array('courseid' => $courseid));
+    FacebookSession::setDefaultApplication($coursepublish->appid, $coursepublish->secretkey);
+    // If you already have a valid access token.
+    $session = new FacebookSession($coursepublish->pageaccesstoken);
+    // Get page access token.
+    $accesstoken = (new FacebookRequest( $session, 'GET', '/' . $coursepublish->pageid,
+    array( 'fields' => 'access_token' ) ))->execute()->getGraphObject()->asArray();
+    // Save access token in variable for later use.
+    $accesstoken = $accesstoken['access_token'];
+    // To validate the session.
+    if ($session) {
+        try {
+            $response = (new FacebookRequest(
+            $session, 'POST', '/'.$coursepublish->pageid.'/feed', array(
+            'access_token' => $accesstoken,
+            'link' => $coursepublish->link,
+            'message' => $coursepublish->message,
+            'picture' => $coursepublish->picture,
+            'caption' => $coursepublish->caption
+            )))->execute()->getGraphObject();
+            echo 'Successfully Posted ';
+            echo "Posted with id: " . $response->getProperty('id');
+        } catch (FacebookRequestException $e) {
+            echo "Exception occured, code: " . $e->getCode();
+            echo " with message: " . $e->getMessage();
+        }
     }
+    redirect($CFG->wwwroot.'/course/view.php?id='.$courseid);
 }
-
-redirect($CFG->wwwroot.'/course/view.php?id='.$courseid);
+redirect($CFG->wwwroot);
