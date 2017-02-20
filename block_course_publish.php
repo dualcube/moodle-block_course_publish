@@ -76,14 +76,8 @@ class block_course_publish extends block_base {
         if (! empty($this->config->secretkey)) {
             $record->secretkey = $this->config->secretkey;
         }
-        if (! empty($this->config->picture)) {
-            $record->picture = $this->config->picture;
-        }
         if (! empty($this->config->message)) {
             $record->message = $this->config->message;
-        }
-        if (! empty($this->config->caption)) {
-            $record->caption = $this->config->caption;
         }
         if (! empty($this->config->pageaccesstoken)) {
             $record->pageaccesstoken = $this->config->pageaccesstoken;

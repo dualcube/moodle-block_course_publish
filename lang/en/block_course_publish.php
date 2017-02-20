@@ -24,10 +24,8 @@
 $string['appid'] = 'App ID';
 $string['secretkey'] = 'Secret Key';
 $string['callbackurl'] = 'Callback Url';
-$string['picture'] = 'Picture';
 $string['link'] = 'Link';
 $string['message'] = 'Message';
-$string['caption'] = 'Caption';
 $string['description'] = 'Description';
 $string['pageaccesstoken'] = 'Pageaccesstoken';
 $string['pageid'] = 'Pageid';

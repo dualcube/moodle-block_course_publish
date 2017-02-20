@@ -47,15 +47,9 @@ class block_course_publish_edit_form extends block_edit_form {
         $mform->addElement('text', 'config_secretkey', get_string('secretkey', 'block_course_publish'));
         $mform->setType('config_secretkey', PARAM_TEXT);
         $mform->addRule('config_secretkey', null, 'required', null, 'secretkey');
-        $mform->addElement('text', 'config_picture', get_string('picture', 'block_course_publish'));
-        $mform->setType('config_picture', PARAM_TEXT);
-        $mform->addRule('config_picture', null, 'required', null, 'picture');
-        $mform->addElement('text', 'config_message', get_string('message', 'block_course_publish'));
+        $mform->addElement('textarea', 'config_message', get_string('message', 'block_course_publish'));
         $mform->setType('config_message', PARAM_TEXT);
         $mform->addRule('config_message', null, 'required', null, 'message');
-        $mform->addElement('text', 'config_caption', get_string('caption', 'block_course_publish'));
-        $mform->setType('config_caption', PARAM_TEXT);
-        $mform->addRule('config_caption', null, 'required', null, 'caption');
         $mform->addElement('text', 'config_pageaccesstoken', get_string('pageaccesstoken', 'block_course_publish'));
         $mform->setType('config_pageaccesstoken', PARAM_TEXT);
         $mform->addRule('config_pageaccesstoken', null, 'required', null, 'pageaccesstoken');

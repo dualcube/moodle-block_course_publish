@@ -36,24 +36,30 @@ $plugin = 'block_course_publish';
 $courseid = optional_param('courseid', 0, PARAM_INT);
 if ($courseid != 0) {
     $coursepublish = $DB->get_record('block_course_publish', array('courseid' => $courseid));
+    $coursenamepublish = $DB->get_record('course', array('id' => $courseid));
+    $coursecontext = context_course::instance($courseid);
+    $isfile = $DB->get_records_sql("Select * from {files} where contextid = ? and filename != ? and filearea = ?", array($coursecontext->id, ".", "overviewfiles"));
+    if ($isfile) {
+        foreach ($isfile as $key1 => $isfilevalue) {
+            $courseimage = $CFG->wwwroot . "/pluginfile.php/" . $isfilevalue->contextid . "/" . $isfilevalue->component . "/" . $isfilevalue->filearea . "/" . $isfilevalue->filename;
+        }
+    }
+    if (!empty($courseimage)) {
+        $coursepublishpicture = $courseimage;
+    } else {
+        $coursepublishpicture = $CFG->wwwroot . "/blocks/course_publish/image/nopic.jpg";
+    }
     FacebookSession::setDefaultApplication($coursepublish->appid, $coursepublish->secretkey);
     // If you already have a valid access token.
     $session = new FacebookSession($coursepublish->pageaccesstoken);
-    // Get page access token.
-    $accesstoken = (new FacebookRequest( $session, 'GET', '/' . $coursepublish->pageid,
-    array( 'fields' => 'access_token' ) ))->execute()->getGraphObject()->asArray();
-    // Save access token in variable for later use.
-    $accesstoken = $accesstoken['access_token'];
-    // To validate the session.
     if ($session) {
         try {
             $response = (new FacebookRequest(
             $session, 'POST', '/'.$coursepublish->pageid.'/feed', array(
-            'access_token' => $accesstoken,
             'link' => $coursepublish->link,
             'message' => $coursepublish->message,
-            'picture' => $coursepublish->picture,
-            'caption' => $coursepublish->caption
+            'picture' => $coursepublishpicture,
+            'caption' => $coursenamepublish->fullname
             )))->execute()->getGraphObject();
             echo 'Successfully Posted ';
             echo "Posted with id: " . $response->getProperty('id');
