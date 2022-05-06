@@ -18,15 +18,15 @@
  * Course_publish block caps.
  *
  * @package block_course_publish
- * @author Sandipa Mukherjee <sandipa@dualcube.com>
- * @copyright 2015 DUALCUBE {@link http://dualcube.com/}
+ * @author Dualcube
+ * @copyright 2022 DUALCUBE {@link http://dualcube.com/}
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015040606;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version   = 2022050606;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2012112900;        // Requires this Moodle version.
 $plugin->component = 'block_course_publish'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release = 'v2.7-r4';
+$plugin->release = 'v2.8-r4';
