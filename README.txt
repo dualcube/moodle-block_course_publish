@@ -37,4 +37,4 @@ Admin can uninstall this admin tool from Site administration > Plugins >  Blocks
 
 To install, place all files in /blocks/course_publish and visit /admin/index.php in your browser.
 
-This block is written by Sandipa Mukherjee Dualcube <sandipa@dualcube.com>
+This block is written by Dualcube
